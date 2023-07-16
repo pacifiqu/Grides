@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 480px;
+      height: 480px;
+    }
+
+    .square {
+      width: 30px;
+      height: 30px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script>
+    const container = document.getElementById('container');
+
+    function createGrid(size) {
+      container.style.setProperty('--grid-size', size);
+
+      for (let i = 0; i < size * size; i++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        square.addEventListener('mouseover', changeColor);
+        container.appendChild(square);
+      }
+    }
+
+    function changeColor(e) {
+      const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+      e.target.style.backgroundColor = `#${randomColor}`;
+    }
+
+    function resetGrid() {
+      while (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+      const newSize = prompt('Enter the number of squares per side for the new grid (maximum: 100):');
+      if (newSize !== null && newSize !== '') {
+        createGrid(newSize);
+      }
+    }
+
+    createGrid(16);
+
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset Grid';
+    resetButton.addEventListener('click', resetGrid);
+    document.body.insertBefore(resetButton, container);
+  </script>
+</body>
+</html>
